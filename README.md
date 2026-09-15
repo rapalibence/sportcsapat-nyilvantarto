@@ -4,7 +4,7 @@ A projekt lényege
 
 Ez a webalkalmazás egy ifjúsági sportcsapat edzés- és mérkőzés-adatainak digitális nyilvántartására készült. A rendszer segítségével az edzők gyorsan rögzíthetik az edzéseken való részvételt és a mérkőzés-statisztikákat, míg a szülők bármikor nyomon követhetik gyermekük részvételét és teljesítményét egy egyszerű, reszponzív felületen.
 
-A projekt egy RESTful backend API-ból (ASP.NET Core) és egy webes frontendből áll, amelyek egy közös MySQL adatbázison keresztül kommunikálnak. A weboldal asztali gépen és mobilon egyaránt jól használható.
+A projekt egy RESTful backend API-ból  és egy webes frontendből áll, amelyek egy közös MySQL adatbázison keresztül kommunikálnak.
 
 Funkciók
 
