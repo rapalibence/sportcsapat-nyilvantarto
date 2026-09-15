@@ -21,6 +21,7 @@ Funkciók
 - Mérkőzések rögzítése (dátum, ellenfél, eredmény)
 - Játékos-statisztikák rögzítése mérkőzésenként (gólok, sárga/piros lap)
 - Áttekintő statisztikák (pl. leggyakoribb hiányzók, legeredményesebb játékosok)
+
 Szülői funkciók
 - Bejelentkezés saját fiókkal
 - Gyermek jelenlét-történetének megtekintése edzésenként
