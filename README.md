@@ -1,58 +1,33 @@
-# Sportcsapat nyilvántartó
+Sportcsapat Edzés- és Jelenlét-nyilvántartó Rendszer
 
-Ifjúsági sportcsapat meccs- és statisztikai nyilvántartó. A backend egy ASP.NET Core
-(.NET 9) minimal API, ami a csapatokat, játékosokat, edzőket, meccseket és az edzéseket
-tartja nyilván.
+A projekt lényege
 
-## Indítás
+Ez a webalkalmazás egy ifjúsági sportcsapat edzés- és mérkőzés-adatainak digitális nyilvántartására készült. A rendszer segítségével az edzők gyorsan rögzíthetik az edzéseken való részvételt és a mérkőzés-statisztikákat, míg a szülők bármikor nyomon követhetik gyermekük részvételét és teljesítményét egy egyszerű, reszponzív felületen.
 
-```bash
-cd backend/SportcsapatApi
-dotnet run --launch-profile http
-```
+A projekt egy RESTful backend API-ból és egy webes frontendből áll, amelyek egy közös MySQL adatbázison keresztül kommunikálnak.
 
-Az API a `http://localhost:5152` címen indul. Fejlesztői módban az OpenAPI leírás a
-`/openapi/v1.json` címen érhető el. A végpontok kipróbálásához a
-[SportcsapatApi.http](backend/SportcsapatApi/SportcsapatApi.http) fájlban kész kérések vannak.
+Funkciók
 
-## Végpontok
+Bejelentkezés / szerepkörök
 
-| Metódus | Útvonal | Leírás |
-| --- | --- | --- |
-| GET | `/api/teams` | Csapatok listája |
-| GET | `/api/teams/{id}` | Egy csapat az edzőjével és a játékosaival |
-| POST | `/api/teams` | Új csapat |
-| POST | `/api/teams/{id}/coach` | Edző beállítása a csapathoz |
-| GET | `/api/players?teamId=` | Játékosok (csapatra szűrhető) |
-| GET | `/api/players/{id}` | Egy játékos adatai |
-| POST | `/api/players` | Új játékos |
-| PUT | `/api/players/{id}` | Játékos adatainak módosítása (szülői felület) |
-| DELETE | `/api/players/{id}` | Játékos törlése a statisztikáival együtt |
-| GET | `/api/players/{id}/summary` | Szezonösszesítő: gólok, percek, edzéslátogatottság |
-| GET | `/api/matches?teamId=` | Meccsek és eredmények (nyilvános) |
-| GET | `/api/matches/{id}` | Egy meccs a játékosstatisztikákkal |
-| POST | `/api/matches` | Új meccs |
-| PUT | `/api/matches/{id}` | Meccs eredményének javítása |
-| GET | `/api/matches/{id}/stats` | A meccs játékosstatisztikái |
-| POST | `/api/matches/{id}/stats` | Játékos statisztikájának rögzítése/felülírása |
-| GET | `/api/trainings?teamId=` | Edzések |
-| POST | `/api/trainings` | Új edzés |
-| GET | `/api/trainings/{id}/attendance` | Jelenléti ív |
-| POST | `/api/trainings/{id}/attendance` | Jelenlét rögzítése (egyszerre több játékosra) |
+- Regisztráció és bejelentkezés saját fiókkal
+- Két szerepkör: **edző** (admin jogosultság) és **szülő** (korlátozott, csak saját gyermek adataira vonatkozó betekintés)
+- Jogosultság-alapú hozzáférés: a szülő csak a saját gyermeke adatait látja, az edző mindent kezel
 
-## Felépítés
+Edzői (admin) funkciók
 
-```
-backend/SportcsapatApi/
-  Program.cs            – szolgáltatások, CORS, végpontok bekötése
-  Models/Entities.cs    – Team, Coach, Player, Match, PlayerMatchStat, Training, TrainingAttendance
-  Models/Dtos.cs        – kérés/válasz típusok
-  Data/SportStore.cs    – ideiglenes memóriabeli adattár, mintaadatokkal
-  Endpoints/            – a végpontok csoportonként
-```
+- Csapatok létrehozása és kezelése (korosztály, edző neve)
+- Játékosok felvétele, adatainak szerkesztése, csapathoz rendelése
+- Edzések létrehozása (dátum, helyszín)
+- Jelenlét gyors rögzítése edzésenként (pipálható lista)
+- Mérkőzések rögzítése (dátum, ellenfél, eredmény)
+- Játékos-statisztikák rögzítése mérkőzésenként (gólok, sárga/piros lap)
+- Áttekintő statisztikák (pl. leggyakoribb hiányzók, legeredményesebb játékosok)
 
-## Hátralévő lépések
+Szülői funkciók
 
-- Adatbázis bekötése (`Csapatadatbázis.sql`) az in-memory `SportStore` helyett
-- Bejelentkezés és jogosultságok: edző (rögzítés) és szülő (saját gyerek adatai)
-- Frontend weboldal a nyilvános eredményekhez és a két felülethez
+- Bejelentkezés saját fiókkal
+- Gyermek jelenlét-történetének megtekintése edzésenként
+- Csapat mérkőzés-eredményeinek megtekintése
+- Gyermek egyéni statisztikáinak megtekintése (gólok, lapok)
+- Következő edzés/mérkőzés időpontjának megtekintése
