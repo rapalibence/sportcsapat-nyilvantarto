@@ -1,6 +1,111 @@
-@SportcsapatApi_HostAddress = http://localhost:5152
+@host = http://localhost:5152
 
-GET {{SportcsapatApi_HostAddress}}/weatherforecast/
+### Csapatok listája
+GET {{host}}/api/teams
 Accept: application/json
 
-###
+### Egy csapat edzővel és játékosokkal
+GET {{host}}/api/teams/1
+Accept: application/json
+
+### Új csapat
+POST {{host}}/api/teams
+Content-Type: application/json
+
+{ "name": "Sasok U12", "ageGroup": "U12" }
+
+### Edző hozzárendelése a csapathoz
+POST {{host}}/api/teams/1/coach
+Content-Type: application/json
+
+{ "teamId": 1, "name": "Kovács Péter", "email": "kovacs.peter@sasok.hu", "phone": "+36301112233" }
+
+### Egy csapat játékosai
+GET {{host}}/api/players?teamId=1
+Accept: application/json
+
+### Új játékos
+POST {{host}}/api/players
+Content-Type: application/json
+
+{
+  "teamId": 1,
+  "name": "Szabó Máté",
+  "birthDate": "2011-02-20",
+  "position": "védő",
+  "jerseyNumber": 4,
+  "guardianName": "Szabó Éva",
+  "guardianEmail": "szabo.eva@example.com",
+  "guardianPhone": "+36301234567"
+}
+
+### Játékos adatainak módosítása (szülői felület)
+PUT {{host}}/api/players/1
+Content-Type: application/json
+
+{
+  "teamId": 1,
+  "name": "Nagy Bence",
+  "birthDate": "2011-04-12",
+  "position": "csatár",
+  "jerseyNumber": 9,
+  "guardianName": "Nagy Anna",
+  "guardianEmail": "nagy.anna@example.com",
+  "guardianPhone": "+36309998877"
+}
+
+### Játékos szezonösszesítője
+GET {{host}}/api/players/1/summary
+Accept: application/json
+
+### Meccsek (nyilvános eredmények)
+GET {{host}}/api/matches?teamId=1
+Accept: application/json
+
+### Egy meccs a statisztikákkal
+GET {{host}}/api/matches/1
+Accept: application/json
+
+### Új meccs rögzítése
+POST {{host}}/api/matches
+Content-Type: application/json
+
+{
+  "teamId": 1,
+  "opponent": "Tigrisek U14",
+  "date": "2025-09-27",
+  "isHome": false,
+  "location": "Tigrisek pálya",
+  "goalsFor": 2,
+  "goalsAgainst": 2,
+  "possessionPercent": 49
+}
+
+### Játékos meccsstatisztikájának rögzítése
+POST {{host}}/api/matches/1/stats
+Content-Type: application/json
+
+{ "playerId": 1, "minutesPlayed": 60, "goals": 2, "assists": 0, "yellowCards": 0, "redCards": 0 }
+
+### Edzések
+GET {{host}}/api/trainings?teamId=1
+Accept: application/json
+
+### Új edzés
+POST {{host}}/api/trainings
+Content-Type: application/json
+
+{ "teamId": 1, "date": "2025-09-24", "location": "Városi Sportpálya", "note": "Erőnlét" }
+
+### Jelenlét rögzítése az edzésen
+POST {{host}}/api/trainings/1/attendance
+Content-Type: application/json
+
+[
+  { "playerId": 1, "present": true },
+  { "playerId": 2, "present": false, "note": "beteg" }
+]
+
+### Jelenléti ív lekérdezése
+GET {{host}}/api/trainings/1/attendance
+Accept: application/json
