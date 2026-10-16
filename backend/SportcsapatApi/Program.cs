@@ -18,6 +18,10 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+
+    // Swagger UI a http://localhost:5152/swagger címen, a fenti OpenAPI leírásból.
+    app.UseSwaggerUI(options =>
+        options.SwaggerEndpoint("/openapi/v1.json", "Sportcsapat nyilvántartó API v1"));
 }
 
 app.UseHttpsRedirection();
